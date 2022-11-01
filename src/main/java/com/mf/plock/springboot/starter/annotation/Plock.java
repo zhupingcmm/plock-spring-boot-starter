@@ -27,19 +27,19 @@ public @interface Plock {
     long waitTime() default Long.MIN_VALUE;
 
     /**
-     *
+     * 
      *the time about wait to lease lock
      */
     long leaseTime() default Long.MIN_VALUE;
 
     /**
-     *
+     * 
      *  the lock type
      */
     LockType type() default LockType.Reentrant;
 
     /**
-     *
+     * 
      *  the parameters of method value
      *  e.g.
      *  @Plock(name="ab", keys={"#user.id", "#user.name})
@@ -48,14 +48,14 @@ public @interface Plock {
     String [] keys() default {};
 
     /**
-     *
+     * 
      * when acquire lock timeout, execute this strategy
      */
     LockTimeoutStrategy lockTimeoutStrategy() default LockTimeoutStrategy.NO_OPERATION;
 
     /**
-     *
-     * when release lock timeout, execute this strategy
+     * 
+     * when release lock timeout, execute this trategy
      */
     ReleaseTimeoutStrategy releaseTimeoutStrategy() default ReleaseTimeoutStrategy.NO_OPERATION;
 }
