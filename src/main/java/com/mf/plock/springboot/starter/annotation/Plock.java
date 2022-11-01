@@ -1,6 +1,7 @@
 package com.mf.plock.springboot.starter.annotation;
 
 import com.mf.plock.springboot.starter.hanlder.lock.impl.LockTimeoutStrategy;
+import com.mf.plock.springboot.starter.hanlder.release.impl.ReleaseTimeoutStrategy;
 import com.mf.plock.springboot.starter.model.LockType;
 
 import java.lang.annotation.ElementType;
@@ -23,4 +24,6 @@ public @interface Plock {
     String [] keys() default {};
 
     LockTimeoutStrategy lockTimeoutStrategy() default LockTimeoutStrategy.NO_OPERATION;
+
+    ReleaseTimeoutStrategy releaseTimeoutStrategy() default ReleaseTimeoutStrategy.NO_OPERATION;
 }

@@ -1,6 +1,7 @@
 package com.mf.plock.springboot.starter.core;
 
 import com.mf.plock.springboot.starter.annotation.Plock;
+import com.mf.plock.springboot.starter.hanlder.release.impl.ReleaseTimeoutStrategy;
 import com.mf.plock.springboot.starter.lock.Lock;
 import com.mf.plock.springboot.starter.lock.LockFactory;
 import com.mf.plock.springboot.starter.model.LockInfo;
@@ -55,12 +56,19 @@ public class PlockAspectHandler {
 
     @AfterReturning(value = "@annotation(plock)")
     public void afterReturning(Plock plock) {
-        currentThreadLock.remove();
+        releaseLock(plock);
     }
 
     @AfterThrowing(value = "@annotation(plock)", throwing = "ex")
     public void afterThrowing(Plock plock, Throwable ex) throws Throwable {
-        currentThreadLock.remove();
+        releaseLock(plock);
         throw ex;
+    }
+    private void releaseLock(Plock plock){
+        boolean release = currentThreadLock.get().getLock().release();
+        if (!release) {
+            plock.releaseTimeoutStrategy().handle(currentThreadLock.get().getLockInfo());
+        }
+        currentThreadLock.remove();
     }
 }
