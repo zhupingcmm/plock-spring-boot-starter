@@ -25,6 +25,11 @@ public class LockInfoProvider {
     private BusinessKeyProvider businessKeyProvider;
 
 
+    /**
+     * @param joinPoint
+     * @param plock
+     * @return lock info
+     */
     public LockInfo get(ProceedingJoinPoint joinPoint, Plock plock) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         LockType lockType = plock.type();

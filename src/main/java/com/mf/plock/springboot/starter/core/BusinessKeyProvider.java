@@ -22,6 +22,15 @@ public class BusinessKeyProvider {
 
     private final ExpressionParser parser = new SpelExpressionParser();
 
+    /**
+     *
+     * @param joinPoint
+     * @param plock
+     * @return get the lock name
+     *
+     * e.g. @Plock(name="ab", keys={"#user.id", "#user.name} ) id: 1 name:c
+     * the name is 1-c
+     */
     public String getKeyName(JoinPoint joinPoint, Plock plock) {
         List<String> keyList = new ArrayList<>();
         Method method = getMethod(joinPoint);

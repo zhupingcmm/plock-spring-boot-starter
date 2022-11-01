@@ -13,17 +13,49 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Plock {
 
+    /**
+     * lock name, but the name is maybe a partition of lock name
+     * because the full lock name is name + keys value
+     * e.g. @Plock(name="ab", keys={"#user.id", "#user.name} ) id: 1 name:c
+     * the name is ab-1-c
+     */
     String name() default "";
 
+    /**
+     *  the time about wait to acquire lock
+     */
     long waitTime() default Long.MIN_VALUE;
 
+    /**
+     *
+     *the time about wait to lease lock
+     */
     long leaseTime() default Long.MIN_VALUE;
 
+    /**
+     *
+     *  the lock type
+     */
     LockType type() default LockType.Reentrant;
 
+    /**
+     *
+     *  the parameters of method value
+     *  e.g.
+     *  @Plock(name="ab", keys={"#user.id", "#user.name})
+     *  public getUser(User user){}
+     */
     String [] keys() default {};
 
+    /**
+     *
+     * when acquire lock timeout, execute this strategy
+     */
     LockTimeoutStrategy lockTimeoutStrategy() default LockTimeoutStrategy.NO_OPERATION;
 
+    /**
+     *
+     * when release lock timeout, execute this strategy
+     */
     ReleaseTimeoutStrategy releaseTimeoutStrategy() default ReleaseTimeoutStrategy.NO_OPERATION;
 }

@@ -47,10 +47,11 @@ public class PlockAspectHandler {
 
         if (!acquired) {
             log.warn("Timeout while acquiring Lock({})", lockInfo.getName());
-
+            // get lock timeout and the handle this senario
             plock.lockTimeoutStrategy().handle(lockInfo,lock,joinPoint);
         }
         currentThreadLock.get().setLock(lock);
+
         return joinPoint.proceed();
     }
 
@@ -64,6 +65,11 @@ public class PlockAspectHandler {
         releaseLock(plock);
         throw ex;
     }
+
+    /**
+     * release lock
+     * @param plock
+     */
     private void releaseLock(Plock plock){
         boolean release = currentThreadLock.get().getLock().release();
         if (!release) {
