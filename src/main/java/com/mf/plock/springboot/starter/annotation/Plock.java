@@ -20,5 +20,7 @@ public @interface Plock {
 
     LockType type() default LockType.Reentrant;
 
+    String [] keys() default {};
+
     LockTimeoutStrategy lockTimeoutStrategy() default LockTimeoutStrategy.NO_OPERATION;
 }

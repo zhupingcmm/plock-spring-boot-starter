@@ -16,16 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LockInfoProvider {
 
     private static final String LOCK_NAME_PREFIX = "lock";
-    private static final String LOCK_NAME_SEPARATOR = ".";
+    private static final String LOCK_NAME_SEPARATOR = "-";
 
     @Autowired
     private PlockConfig plockConfig;
+
+    @Autowired
+    private BusinessKeyProvider businessKeyProvider;
 
 
     public LockInfo get(ProceedingJoinPoint joinPoint, Plock plock) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         LockType lockType = plock.type();
-        String lockName = LOCK_NAME_PREFIX + LOCK_NAME_SEPARATOR + getName(plock.name(), methodSignature);
+        String businessKeyName = businessKeyProvider.getKeyName(joinPoint, plock);
+        String lockName = LOCK_NAME_PREFIX + LOCK_NAME_SEPARATOR + getName(plock.name(), methodSignature) + businessKeyName;
         return new LockInfo(lockType,lockName,getWaitTime(plock), getLeaseTime(plock));
     }
 

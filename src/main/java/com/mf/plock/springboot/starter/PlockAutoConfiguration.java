@@ -1,6 +1,7 @@
 package com.mf.plock.springboot.starter;
 
 import com.mf.plock.springboot.starter.config.PlockConfig;
+import com.mf.plock.springboot.starter.core.BusinessKeyProvider;
 import com.mf.plock.springboot.starter.core.LockInfoProvider;
 import com.mf.plock.springboot.starter.core.PlockAspectHandler;
 import com.mf.plock.springboot.starter.exception.PlockExeception;
@@ -73,6 +74,11 @@ public class PlockAutoConfiguration {
     @Bean
     public PlockConfig plockConfig(){
         return new PlockConfig();
+    }
+
+    @Bean
+    public BusinessKeyProvider businessKeyProvider () {
+        return new BusinessKeyProvider();
     }
 
 
