@@ -52,7 +52,7 @@ public class PlockAutoConfiguration {
             Codec codec = (Codec) Class.forName(plockConfig.getCodec(), true, this.getClass().getClassLoader()).newInstance();
             config.setCodec(codec);
             config.setEventLoopGroup(new NioEventLoopGroup());
-            log.info("connect to redis server");
+            log.info("connecting redis server");
             return Redisson.create(config);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             log.error("failed to connect redis", e);
