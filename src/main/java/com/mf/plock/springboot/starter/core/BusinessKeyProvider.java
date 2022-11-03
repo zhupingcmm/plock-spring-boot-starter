@@ -1,6 +1,7 @@
 package com.mf.plock.springboot.starter.core;
 
 import com.mf.plock.springboot.starter.annotation.Plock;
+import com.mf.plock.springboot.starter.exception.PlockExeception;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.expression.MethodBasedEvaluationContext;
@@ -48,6 +49,7 @@ public class BusinessKeyProvider {
           try {
               method = joinPoint.getTarget().getClass().getDeclaredMethod(signature.getName(), method.getParameterTypes());
           } catch (Exception e) {
+              throw new PlockExeception("method can not found", e);
 
           }
       }

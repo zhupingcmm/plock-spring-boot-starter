@@ -36,6 +36,9 @@ public class PlockConfig {
      */
     private String codec = "org.redisson.codec.JsonJacksonCodec";
 
+    /**
+     * if redis is cluster mode us the config
+     */
     private ClusterServer clusterServer;
 
     @Data

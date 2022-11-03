@@ -1,7 +1,6 @@
 package com.mf.plock.springboot.starter.core;
 
 import com.mf.plock.springboot.starter.annotation.Plock;
-import com.mf.plock.springboot.starter.hanlder.release.impl.ReleaseTimeoutStrategy;
 import com.mf.plock.springboot.starter.lock.Lock;
 import com.mf.plock.springboot.starter.lock.LockFactory;
 import com.mf.plock.springboot.starter.model.LockInfo;
@@ -14,16 +13,10 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-
-
-
-
 
 @Slf4j
 @Order(0)
 @Aspect
-@Component
 @RequiredArgsConstructor
 public class PlockAspectHandler {
 
@@ -73,6 +66,7 @@ public class PlockAspectHandler {
     private void releaseLock(Plock plock){
         boolean release = currentThreadLock.get().getLock().release();
         if (!release) {
+            // release lock failed and then handle this senario
             plock.releaseTimeoutStrategy().handle(currentThreadLock.get().getLockInfo());
         }
         currentThreadLock.remove();
