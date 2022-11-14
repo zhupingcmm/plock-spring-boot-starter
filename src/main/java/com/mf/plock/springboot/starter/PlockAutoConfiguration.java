@@ -14,7 +14,6 @@ import org.redisson.client.codec.Codec;
 import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,7 +34,6 @@ public class PlockAutoConfiguration {
 
 
     @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingBean
     public RedissonClient redissonClient () {
         try {
             Config config = new Config();
