@@ -8,10 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class PlockConfig {
 
     /**
-     * enable plock
-     */
-    private boolean enabled;
-    /**
      * host: port
      */
     private String address;
