@@ -10,8 +10,14 @@ import lombok.Data;
 @Builder
 public class LockRes {
 
+    /**
+     * lock information
+     */
     private LockInfo lockInfo;
 
+    /**
+     * lock instance
+     */
     private Lock lock;
 
 }

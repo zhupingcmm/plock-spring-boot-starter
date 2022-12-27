@@ -8,10 +8,7 @@ import com.mf.plock.springboot.starter.model.LockRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 
 @Slf4j
@@ -29,12 +26,14 @@ public class PlockAspectHandler {
      */
     private ThreadLocal<LockRes> currentThreadLock = new ThreadLocal<>();
 
-    @Around(value = "@annotation(plock)")
+    @Before(value = "@annotation(plock)")
     public Object around(ProceedingJoinPoint joinPoint, Plock plock) throws Throwable {
 
+        // get lock info
         LockInfo lockInfo = lockInfoProvider.get(joinPoint, plock);
         currentThreadLock.set(LockRes.builder().lockInfo(lockInfo).build());
 
+        // get the lock
         Lock lock = lockFactory.getLock(lockInfo);
         boolean acquired = lock.acquire();
 
@@ -43,6 +42,7 @@ public class PlockAspectHandler {
             // get lock timeout and the handle this senario
             plock.lockTimeoutStrategy().handle(lockInfo,lock,joinPoint);
         }
+        // store the lock
         currentThreadLock.get().setLock(lock);
 
         return joinPoint.proceed();

@@ -38,10 +38,12 @@ public class PlockAutoConfiguration {
         try {
             Config config = new Config();
             if (plockConfig.getClusterServer() != null) {
+                // cluster mode
                 config.useClusterServers()
                         .setPassword(plockConfig.getPassword())
                         .addNodeAddress(plockConfig.getClusterServer().getNodeAddress());
             } else {
+                // standalone mode
                 config.useSingleServer()
                         .setAddress(plockConfig.getAddress())
                         .setDatabase(plockConfig.getDatabase())
